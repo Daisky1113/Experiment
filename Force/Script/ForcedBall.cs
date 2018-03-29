@@ -23,7 +23,7 @@ public class ForcedBall : MonoBehaviour {
     float maxLength;
     float minLength;
 
-    int direction;
+ 
 	// Use this for initialization
 	void Start () {
         //質量をランダムに設定する
@@ -38,12 +38,12 @@ public class ForcedBall : MonoBehaviour {
         // 初期値から目的地までのベクトルを正規化したもの
         acceleration = (location - endPoint).normalized / 600; 
         defaulAcceleration = acceleration;//加速度をキャッシュ
-
+        force = Vector3.zero;
 
         maxLength = 10.0f;
         minLength = 0.1f;
 
-        direction = -1;//初期はマイナス方向に移動
+
 	}
 	
 	// Update is called once per frame
@@ -62,7 +62,7 @@ public class ForcedBall : MonoBehaviour {
             gameObject.transform.position = posY < minLength 
                 ? new Vector3(posX, minLength, posZ) 
                 : new Vector3(posX, maxLength, posZ);
-            direction *= -1;　// ベクトルを反転
+
             velocity = Vector3.zero; // 速度を初期化
         }
 
@@ -70,22 +70,29 @@ public class ForcedBall : MonoBehaviour {
             // マウスが押されたら加速度を増加させる
        if (Input.GetMouseButtonDown(0))
        {
-            ApplyForce(new Vector3(0, 0.1f, 0));
+            ApplyForce(new Vector3(0, - 0.1f, 0));
        }
 
         Move();
+        force = Vector3.zero;
         acceleration = defaulAcceleration;
 	}
 
     void Move()
     {
-        velocity += acceleration * direction;
+        // トリクルダウン
+        // 力を加速度に変換する
+        acceleration = force;
+        //加速度を速度に変換
+        velocity += acceleration;
+        //速度を位置に変換
         gameObject.transform.position += velocity;
     }
 
-    void ApplyForce(Vector3 force)
+    void ApplyForce(Vector3 anyForce)
     {
-        //加速度は力を質量で割ったもの
-        acceleration += (force / mass);
+        //外的な力が加わったらforceにキャッシュする
+        // 分配法則が適応できるので先に計算して結果だけ保存する
+        force += (anyForce / mass);
     }
 }
