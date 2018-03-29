@@ -9,7 +9,7 @@ public class ForcedBall : MonoBehaviour {
     // f = ma^
     //加速度はすべての力の合計を質量で割ったもの
 
-    public float mass;
+    private float mass;
 
     Vector3 location;
     Vector3 endPoint;
@@ -45,11 +45,11 @@ public class ForcedBall : MonoBehaviour {
         defaulAcceleration = acceleration;//加速度をキャッシュ
         force = Vector3.zero;
 
-        gravity = new Vector3(0, -0.01f * mass, 0);//重力は質量と関係がないのでかけておく
+        gravity = new Vector3(0, -0.05f * mass, 0);//重力は質量と関係がないのでかけておく
         wind = new Vector3(0, 0, -0.1f);
 
         maxLength = 10.0f;
-        minLength = 0.1f;
+        minLength = 0.01f;
 
 
 	}
@@ -103,5 +103,9 @@ public class ForcedBall : MonoBehaviour {
         //外的な力が加わったらforceにキャッシュする
         // 分配法則が適応できるので先に計算して結果だけ保存する
         force += (anyForce / mass);
+    }
+    public void SetMass(float val)
+    {
+        mass = val;
     }
 }
