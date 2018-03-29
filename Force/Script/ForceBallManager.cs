@@ -5,15 +5,16 @@ using UnityEngine;
 public class ForceBallManager : MonoBehaviour {
 
     public GameObject ballPrefab;
-    int numOfBall;
+    public static int numOfBall = 10;
+    public static GameObject[] allBall = new GameObject[numOfBall];
     // Use this for initialization
     void Start()
     {
-        numOfBall = 10;
+
         for(int i =0; i < numOfBall; i++)
         {
-            Instantiate(ballPrefab, new Vector3(i * 2.0f - numOfBall,10.0f,0), Quaternion.identity);
-
+            allBall[i] = Instantiate(ballPrefab, new Vector3(i * 2.0f - numOfBall,10.0f,0), Quaternion.identity);
+            Debug.Log(allBall[i]);
         }
     }
 

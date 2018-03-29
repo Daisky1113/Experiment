@@ -6,9 +6,10 @@ public class ForcedBall : MonoBehaviour {
 
 
     //ニュートンの第二の法則
+    // f = ma^
     //加速度はすべての力の合計を質量で割ったもの
 
-    float mass;
+    public float mass;
 
     Vector3 location;
     Vector3 endPoint;
@@ -29,7 +30,9 @@ public class ForcedBall : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         //質量をランダムに設定する
-        mass = Random.Range(0.1f,5.0f);
+        mass = Random.Range(0.1f,10.0f);
+        //質量によってサイズを変更する
+        gameObject.transform.localScale = new Vector3(mass / 5.0f, mass / 5.0f , mass / 5.0f);
         location = gameObject.transform.position;
         defaultPosX = location.x;
         defaultPosZ = location.z;
@@ -42,7 +45,7 @@ public class ForcedBall : MonoBehaviour {
         defaulAcceleration = acceleration;//加速度をキャッシュ
         force = Vector3.zero;
 
-        gravity = new Vector3(0, -0.01f * mass, 0);
+        gravity = new Vector3(0, -0.01f * mass, 0);//重力は質量と関係がないのでかけておく
         wind = new Vector3(0, 0, -0.1f);
 
         maxLength = 10.0f;
@@ -68,7 +71,7 @@ public class ForcedBall : MonoBehaviour {
                 ? new Vector3(posX, minLength, posZ) 
                 : new Vector3(posX, maxLength, posZ);
 
-            velocity = Vector3.zero; // 速度を初期化
+            velocity *= -1;
         }
 
 
