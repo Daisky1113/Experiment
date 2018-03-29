@@ -5,7 +5,7 @@ using UnityEngine;
 public class ForceBallManager : MonoBehaviour {
 
     public GameObject ballPrefab;
-    public static int numOfBall = 10;
+    public static int numOfBall = 20;
     public static GameObject[] allBall = new GameObject[numOfBall];
     // Use this for initialization
     void Start()
@@ -13,8 +13,10 @@ public class ForceBallManager : MonoBehaviour {
 
         for(int i =0; i < numOfBall; i++)
         {
+            float scale = 0.1f + i * 0.1f;
             allBall[i] = Instantiate(ballPrefab, new Vector3(i * 2.0f - numOfBall,10.0f,0), Quaternion.identity);
-            Debug.Log(allBall[i]);
+            allBall[i].transform.localScale = new Vector3(1,1,1) * scale;
+            allBall[i].GetComponent<ForcedBall>().mass = 0.1f + i * 0.1f;
         }
     }
 

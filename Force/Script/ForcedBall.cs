@@ -30,9 +30,9 @@ public class ForcedBall : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         //質量をランダムに設定する
-        mass = Random.Range(0.1f,10.0f);
+        //mass = Random.Range(0.1f,10.0f);
         //質量によってサイズを変更する
-        gameObject.transform.localScale = new Vector3(mass / 5.0f, mass / 5.0f , mass / 5.0f);
+        //gameObject.transform.localScale = new Vector3(mass / 5.0f, mass / 5.0f , mass / 5.0f);
         location = gameObject.transform.position;
         defaultPosX = location.x;
         defaultPosZ = location.z;
@@ -79,6 +79,7 @@ public class ForcedBall : MonoBehaviour {
        if (Input.GetMouseButtonDown(0))
        {
             ApplyForce(wind);
+            Debug.Log(mass);
        }
         ApplyForce(gravity);
         Move();
