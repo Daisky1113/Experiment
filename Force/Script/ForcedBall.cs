@@ -19,6 +19,8 @@ public class ForcedBall : MonoBehaviour {
     Vector3 velocity;
     Vector3 force;
 
+    Vector3 gravity;
+    Vector3 wind;
 
     float maxLength;
     float minLength;
@@ -39,6 +41,9 @@ public class ForcedBall : MonoBehaviour {
         acceleration = (location - endPoint).normalized / 600; 
         defaulAcceleration = acceleration;//加速度をキャッシュ
         force = Vector3.zero;
+
+        gravity = new Vector3(0, -0.01f * mass, 0);
+        wind = new Vector3(0, 0, -0.1f);
 
         maxLength = 10.0f;
         minLength = 0.1f;
@@ -70,9 +75,9 @@ public class ForcedBall : MonoBehaviour {
             // マウスが押されたら加速度を増加させる
        if (Input.GetMouseButtonDown(0))
        {
-            ApplyForce(new Vector3(0, - 0.1f, 0));
+            ApplyForce(wind);
        }
-
+        ApplyForce(gravity);
         Move();
         force = Vector3.zero;
         acceleration = defaulAcceleration;
