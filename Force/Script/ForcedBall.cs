@@ -21,7 +21,7 @@ public class ForcedBall : MonoBehaviour {
     Vector3 force;
 
     Vector3 gravity;
-    Vector3 wind;
+    private Vector3 wind;
 
     float maxLength;
     float minLength;
@@ -79,12 +79,11 @@ public class ForcedBall : MonoBehaviour {
        if (Input.GetMouseButtonDown(0))
        {
             ApplyForce(wind);
-            Debug.Log(mass);
        }
         ApplyForce(gravity);
         Move();
-        force = Vector3.zero;
-        acceleration = defaulAcceleration;
+        force = Vector3.zero; //力を初期化
+        acceleration = defaulAcceleration;　// 加速度を初期化
 	}
 
     void Move()
@@ -107,5 +106,10 @@ public class ForcedBall : MonoBehaviour {
     public void SetMass(float val)
     {
         mass = val;
+    }
+
+    public void SetRandomWind(float randomRange)
+    {
+        wind = new Vector3(Random.Range(-randomRange, randomRange), Random.Range(-randomRange, randomRange), Random.Range(-randomRange, randomRange));
     }
 }

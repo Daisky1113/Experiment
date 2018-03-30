@@ -8,6 +8,7 @@ public class ForceBallManager : MonoBehaviour {
     public int numOfBall;
     public  GameObject[] allBall;
     public  ForcedBall[] scripts;
+    
     // Use this for initialization
     void Start()
     {
@@ -34,7 +35,10 @@ public class ForceBallManager : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-
+        if (Input.GetMouseButtonDown(1))
+        {
+            
+        }
     }
     public Vector3 RandomPosition(float range)
     {
