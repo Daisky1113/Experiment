@@ -25,26 +25,25 @@ public class Mover : MonoBehaviour {
         if (location.magnitude < 0.01f || location.magnitude > 20.0f)
         {
             
-            gameObject.transform.position = location.magnitude < 0.1f
+            gameObject.transform.position = location.magnitude < 0.01f
                 ? location += velocity
                 : location -= velocity;
 
             // 速度を反転させる
             velocity *=-1;
         }
+        // todo オブジェクトが原点を通るとき速度が0になる問題
+        //if (location == Vector3.zero)
+        //{
+        //    velocity *= -1;
+        //}
 
-        if (Input.GetMouseButtonDown(0))
-        {
-            ApplyForce(
-               new Vector3(
-                   Random.Range(-0.1f, 1f),
-                   Random.Range(-0.1f, 1f),
-                   Random.Range(-0.1f, 1f)
-                )
-            );
-        }
         Move();
+        if (Input.GetMouseButtonDown(1))
+        {
+            velocity *= 0.5f;
 
+        }
         // 力を初期化
         force = Vector3.zero;
 	}

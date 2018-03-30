@@ -142,7 +142,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attractorPrefab: {fileID: 1421230446038898, guid: 28095a45d826ba54384949b4ad6a5ed3,
     type: 2}
-  mover: {fileID: 1435819656590852, guid: 818144dfe71e6b0449afbbf9809df091, type: 2}
+  moverPrefab: {fileID: 1435819656590852, guid: 818144dfe71e6b0449afbbf9809df091,
+    type: 2}
 --- !u!4 &403135038
 Transform:
   m_ObjectHideFlags: 0
@@ -296,7 +297,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1782974716}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: -10}
+  m_LocalPosition: {x: 0, y: 1, z: -20}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
