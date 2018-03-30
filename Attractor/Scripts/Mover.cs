@@ -59,11 +59,21 @@ public class Mover : MonoBehaviour {
         gameObject.transform.position += velocity;
     }
 
-
-    public void SetMass(float massValue)
+    // @parm G => 万有引力定数
+    // @parm attractor => 引力を持つMover
+    public void GetAttrace(float G ,GameObject attractor)
     {
-        mass = massValue;   
+        if(gameObject != attractor)
+        {
+            Vector3 dir = attractor.transform.position - gameObject.transform.position;
+            float distance = dir.magnitude;
+            dir = dir.normalized;
+            float m = G * attractor.GetComponent<Mover>.GetMass() * mass / (distance * distance);
+
+            ApplyForce(dir * m);
+        }
     }
+
     public float GetMass()
     {
         return mass;
@@ -72,4 +82,10 @@ public class Mover : MonoBehaviour {
     {
         force += applyForce;
     }
+
+    public void SetMass(float massValue)
+    {
+        mass = massValue;   
+    }
+
 }

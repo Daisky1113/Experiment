@@ -27,7 +27,7 @@ public class MoverManager : MonoBehaviour {
             moverScripts[i].SetMass(Random.Range(1.0f, 3.0f)); // 質量をランダムに設定
 
             allMovers[i].transform.position = RandomVec3(5.0f); // ポジションんをランダムに設定
-            allMovers[i].transform.localScale *= moverScripts[i].GetMass();　// 質量からスケールを変更
+            allMovers[i].transform.localScale *= moverScripts[i].GetMass();　// 質量からメッシュの大きさを変更
         }	
 	}
 	
@@ -39,8 +39,12 @@ public class MoverManager : MonoBehaviour {
     Vector3 GetAttract() 
     {
         Vector3 dir = allMovers[0].transform.position - allMovers[1].transform.position;
+        float distance = dir.magnitude;
         dir = dir.normalized;
 
+        float m = attraction * moverScripts[0].GetMass() * moverScripts[1].GetMass() / (distance * distance);
+
+        return dir * m;
     }
 
     Vector3 RandomVec3(float range)
