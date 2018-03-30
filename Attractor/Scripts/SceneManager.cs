@@ -9,6 +9,7 @@ public class SceneManager : MonoBehaviour {
 
     GameObject[] allMover;
     GameObject attractor;
+    Mover[] scripts;
 
     int numOfMover;
     float randomRange;
@@ -18,11 +19,16 @@ public class SceneManager : MonoBehaviour {
         randomRange = 10.0f;
 
         allMover = new GameObject[numOfMover];
-
+        scripts = new Mover[numOfMover];
         attractor = Instantiate(attractorPrefab, Vector3.zero, Quaternion.identity);
         for(int i =0; i < numOfMover; i++)
         {
             allMover[i] = Instantiate(moverPrefab, RandomVec3(randomRange), Quaternion.identity);
+            scripts[i] = allMover[i].GetComponent<Mover>();
+
+            scripts[i].SetMass(0.3f + i * 0.1f);
+            allMover[i].transform.localScale = allMover[i].transform.localScale * scripts[i].GetMass();
+            allMover[i].transform.position = new Vector3(1.0f * i - numOfMover / 2, 0, 0);
         }
 
     }
