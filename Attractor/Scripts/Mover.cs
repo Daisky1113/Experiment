@@ -68,7 +68,8 @@ public class Mover : MonoBehaviour {
             Vector3 dir = attractor.transform.position - gameObject.transform.position;
             float distance = dir.magnitude;
             dir = dir.normalized;
-            float m = G * attractor.GetComponent<Mover>.GetMass() * mass / (distance * distance);
+            Mover script = attractor.GetComponent<Mover>();
+            float m = G * script.GetMass() * mass / (distance * distance);
 
             ApplyForce(dir * m);
         }
