@@ -16,15 +16,15 @@ public class MoverManager : MonoBehaviour {
 
         attraction = 1.0f; //　万有引力定数
 
-        numOfMover = 2;
+        numOfMover = 10;
         allMovers = new GameObject[numOfMover];
         moverScripts = new Mover[numOfMover];
 	    for(int i = 0; i < numOfMover; i++)
         {
-            allMovers[i] = Instantiate(moverPrefab, RandomVec3(5.0f), Quaternion.identity);
+            allMovers[i] = Instantiate(moverPrefab, RandomVec3(10.0f), Quaternion.identity);
             moverScripts[i] = allMovers[i].GetComponent<Mover>();
 
-            moverScripts[i].SetMass(Random.Range(1.0f, 3.0f)); // 質量をランダムに設定
+            moverScripts[i].SetMass(Random.Range(2.0f, 3.0f)); // 質量をランダムに設定
 
             allMovers[i].transform.position = RandomVec3(5.0f); // ポジションんをランダムに設定
             allMovers[i].transform.localScale *= moverScripts[i].GetMass();　// 質量からメッシュの大きさを変更
@@ -33,7 +33,10 @@ public class MoverManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
+        for(int i =1; i < numOfMover; i++)
+        {
+            moverScripts[i].GetAttract(0.01f, allMovers[0]);
+        }
 	}
 
     Vector3 GetAttract() 

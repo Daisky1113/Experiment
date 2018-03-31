@@ -61,15 +61,15 @@ public class Mover : MonoBehaviour {
 
     // @parm G => 万有引力定数
     // @parm attractor => 引力を持つMover
-    public void GetAttrace(float G ,GameObject attractor)
+    public void GetAttract(float G ,GameObject attractor)
     {
         if(gameObject != attractor)
         {
             Vector3 dir = attractor.transform.position - gameObject.transform.position;
             float distance = dir.magnitude;
             dir = dir.normalized;
-            Mover script = attractor.GetComponent<Mover>();
-            float m = G * script.GetMass() * mass / (distance * distance);
+            float  AttractorMass = attractor.GetComponent<Mover>().GetMass();
+            float m = G  * AttractorMass * mass / (distance * distance);
 
             ApplyForce(dir * m);
         }
