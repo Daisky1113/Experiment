@@ -8,17 +8,15 @@ public class Rotater : MonoBehaviour {
     Vector3 acceleration;
     Vector3 velocity;
     
-    private float mass;
+    public float mass;
 
-    float maxSpeed = 1.0f;
+
 
 	// Use this for initialization
 	void Start () {
         force = Vector3.zero;
         acceleration = Vector3.zero;
         velocity = Vector3.zero;
-
-        mass = 2.0f;
 	}
 	
 
@@ -38,7 +36,7 @@ public class Rotater : MonoBehaviour {
 
     public void SlowDown(float ratio)
     {
-        // F =MA
+        // F = MA^
         ApplyForce(velocity * mass * -1.0f * ratio);
     }
 
@@ -50,5 +48,19 @@ public class Rotater : MonoBehaviour {
     {
         gameObject.transform.position -= (velocity * Time.deltaTime);
         velocity *= -1;
+    }
+    // GetAttract
+    // @parm G => 万有引力定数
+    // @parm attractor => 引力を持つオブジェクト
+    // @return 引力
+    public Vector3 GetAttrace(float G, GameObject attractor)
+    {
+        // F = G * m1 * m2 / (r * r) * v^
+        Vector3 dir = attractor.transform.position - gameObject.transform.position;
+        float distance = dir.magnitude;
+        dir = dir.normalized;
+        float AttractorMass = attractor.GetComponent<Rotater>().mass;
+        Vector3 strength = G * AttractorMass * mass / (distance * distance) * dir;
+        return strength;
     }
 }
