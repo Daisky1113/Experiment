@@ -10,22 +10,13 @@ public class Mover : MonoBehaviour {
 
     public float mass;
 
-	// Use this for initialization
-	void Start () {
-
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 
     public void Move()
     {
         acceleration = force / mass;
         velocity += acceleration;
         gameObject.transform.position += velocity * Time.deltaTime;
-        force = Vector3.zero;
+        force = Vector3.zero;　//力を初期化
     }
 
     public Vector3 GetStrength()
@@ -51,5 +42,15 @@ public class Mover : MonoBehaviour {
     public void ApplyForce(Vector3 strength)
     {
         force = strength;
+    }
+
+    public void GetAttract(float G, GameObject attractor)
+    {
+        Vector3 dir = attractor.transform.position - gameObject.transform.position;
+        float distance = dir.magnitude;
+        float attractorMass = attractor.GetComponent<Mover>().mass;
+        dir = dir.normalized;
+        Vector3 strength = G * attractorMass * this.mass / (distance * distance) * dir;
+        ApplyForce(strength);
     }
 }

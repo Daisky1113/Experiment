@@ -5,35 +5,65 @@ using UnityEngine;
 public class MoverController : MonoBehaviour {
 
     public GameObject moverPrefab;
-    GameObject mover;
-    Mover m;
+    int numOfMover;
+    GameObject[] allMover;
+    Mover[] m;
 
     float areaSize;
+
 	// Use this for initialization
 	void Start () {
+        
+        numOfMover = 10;
+        allMover = new GameObject[numOfMover];
+        m = new Mover[numOfMover];
         areaSize = 10.0f;
-        mover = Instantiate(moverPrefab,Vector3.zero,Quaternion.identity);
-        m = mover.GetComponent<Mover>();
-        m.mass = 10.0f;
-        Debug.Log(m.mass);
+
+        // instatntiare
+        for(int i = 0; i < numOfMover; i++)
+        {
+            allMover[i] = Instantiate(moverPrefab, RandomVec3(areaSize - 1.0f), Quaternion.identity);
+            m[i] = allMover[i].GetComponent<Mover>();
+            m[i].mass = Random.Range(1.0f, 2.0f);
+            // moverのサイズを質量に比例させる
+            allMover[i].transform.localScale *= m[i].mass;
+
+            // moverを横一列に整列
+            allMover[i].transform.position = new Vector3(i - numOfMover / 2 , 0, 0);
+        }
+
 	}
 	
 	// Update is called once per frame
 	void Update () {
+
         if (Input.GetMouseButtonDown(0))
         {
-            m.ApplyForce(RandomVec3(10.0f));
-        }
-        if (mover.transform.position.magnitude > areaSize)
-        {
-            m.Reverse();
+            Vector3 RandomForce = RandomVec3(10.0f);
+            for (int i = 0; i < numOfMover; i++)
+            {
+                m[i].ApplyForce(RandomForce);
+            }
         }
         if (Input.GetMouseButtonDown(1))
         {
-            m.Breaking(0.3f);
+            Vector3 RandomForce = RandomVec3(10.0f);
+            for (int i = 0; i < numOfMover; i++)
+            {
+                m[i].Breaking(0.3f);
+            }
         }
-        m.Move();
-	}
+        for (int i = 0; i < numOfMover; i++)
+        {
+            if(allMover[i].transform.position.magnitude > areaSize)
+            {
+                m[i].Reverse();
+            }
+            m[i].Move();
+        }
+    }
+
+
     public Vector3 RandomVec3(float range)
     {
         return new Vector3(Random.Range(-range, range), Random.Range(-range, range), Random.Range(-range, range));
