@@ -11,24 +11,27 @@ public class MoverController : MonoBehaviour {
 
     float areaSize;
 
+    float G;
+    bool flg;
     GameObject heavyMover;
 
 	// Use this for initialization
 	void Start () {
         
-        numOfMover = 2000;
+        numOfMover = 10000;
         allMover = new GameObject[numOfMover];
         m = new Mover[numOfMover];
         areaSize = 20.0f;
-
+        flg = true;
+        G = 6.6f;
         // instatntiare
         for(int i = 0; i < numOfMover; i++)
         {
-            allMover[i] = Instantiate(moverPrefab, RandomVec3(10.0f), Quaternion.identity);
+            allMover[i] = Instantiate(moverPrefab, RandomVec3(10.0f),Quaternion.identity);
             m[i] = allMover[i].GetComponent<Mover>();
             m[i].mass = Random.Range(1.0f, 2.0f);
             // moverのサイズを質量に比例させる
-            allMover[i].transform.localScale *= m[i].mass;
+            allMover[i].transform.localScale *= 0.3f;
 
             // moverを横一列に整列
             //allMover[i].transform.position = new Vector3(i - numOfMover / 2 , 0, 0);
@@ -37,8 +40,10 @@ public class MoverController : MonoBehaviour {
             //allMover[i].transform.position = RandomVec3(areaSize - 3.0f);
         }
         // heavyMoverを決定する
+        
         heavyMover = allMover[0];
-        m[0].mass = 90.0f;
+        heavyMover.transform.localScale *= 10.0f;
+        m[0].mass = 100.0f;
 
         //for(int i = 1; i < numOfMover; i++)
         //{
@@ -66,7 +71,6 @@ public class MoverController : MonoBehaviour {
             //{
             //    m[i].ApplyForce(RandomForce);
             //}
-
             m[0].ApplyForce(RandomForce);
         }
 
@@ -75,24 +79,36 @@ public class MoverController : MonoBehaviour {
         {
             //Vector3 RandomForce = RandomVec3(1.0f);
             //for (int i = 0; i < numOfMover; i++)
-            {
-                m[0].Breaking(0.2f);
-            }
+            m[0].Breaking(0.9f);
+        }
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            
+            flg = !flg;
         }
 
         for (int i = 0; i < numOfMover; i++)
         {
 
 
-            //    // moverに引力を適用する
-            if (allMover[i] != heavyMover) // mover[i]がheavyMoverでない時に実行
+            if (flg)
             {
-                m[i].GetRepulsive(1.7f, heavyMover);
+                if (allMover[i] != heavyMover) // mover[i]がheavyMoverでない時に実行
+                {
+                    m[i].GetAttract(G, heavyMover);
+                }
+
+            }
+            else
+            {
+                if (allMover[i] != heavyMover) // mover[i]がheavyMoverでない時に実行
+                {
+                    m[i].GetRepulsive(G, heavyMover);
+                }
             }
 
-            //    // moverを移動させる
-            //    m[i].Move();
         }
+
         if(heavyMover.transform.position.magnitude > areaSize)
         {
             m[0].Reverse();
