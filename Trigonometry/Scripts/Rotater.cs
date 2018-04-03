@@ -53,7 +53,7 @@ public class Rotater : MonoBehaviour {
     // @parm G => 万有引力定数
     // @parm attractor => 引力を持つオブジェクト
     // @return 引力
-    public Vector3 GetAttrace(float G, GameObject attractor)
+    public Vector3 GetAttract(float G, GameObject attractor)
     {
         // F = G * m1 * m2 / (r * r) * v^
         Vector3 dir = attractor.transform.position - gameObject.transform.position;

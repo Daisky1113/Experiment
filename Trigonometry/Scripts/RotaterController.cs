@@ -79,15 +79,15 @@ public class RotaterController : MonoBehaviour {
         //}
 	}
 
-    GameObject GetHeavyObject(GameObject[] objects)
-    {
-        GameObject heavyObject = objects[0]
-            ;
-        for(int i = 1; i < objects.Length; i++)
-        {
+    //GameObject GetHeavyObject(GameObject[] objects)
+    //{
+    //    GameObject heavyObject = objects[0]
+    //        ;
+    //    for(int i = 1; i < objects.Length; i++)
+    //    {
            
-        }
-    }
+    //    }
+    //}
     float RandomFloat(float range)
     {
         return Random.Range(-range, range);

@@ -26,8 +26,8 @@ public class Mover : MonoBehaviour {
         {
             
             gameObject.transform.position = location.magnitude < 0.01f
-                ? location += velocity
-                : location -= velocity;
+                ? location += velocity * Time.deltaTime
+                : location -= velocity * Time.deltaTime;
 
             // 速度を反転させる
             velocity *=-1;
@@ -48,7 +48,7 @@ public class Mover : MonoBehaviour {
         force = Vector3.zero;
 	}
 
-    void Move()
+    public void Move()
     {
         // トリクルダウン
         // 加速度は力を質量で除算したもの
@@ -56,7 +56,7 @@ public class Mover : MonoBehaviour {
         // 位置は速度によって変化する
         acceleration = force / mass;
         velocity += acceleration;
-        gameObject.transform.position += velocity;
+        gameObject.transform.position += ( velocity * Time.deltaTime);
     }
 
     // @parm G => 万有引力定数
@@ -66,10 +66,21 @@ public class Mover : MonoBehaviour {
         if(gameObject != attractor)
         {
             Vector3 dir = attractor.transform.position - gameObject.transform.position;
-            float distance = dir.magnitude;
+            float distance;
+            if(dir.magnitude < 1.0f)
+            {
+                distance = 1.0f;
+            }else if(dir.magnitude > 10.0f)
+            {
+                distance = 10.0f;
+            }
+            else
+            {
+                distance = dir.magnitude;
+            }
             dir = dir.normalized;
             float  AttractorMass = attractor.GetComponent<Mover>().GetMass();
-            float m = G  * AttractorMass * mass / (distance * distance);
+            float m = G  * AttractorMass * mass / ( distance * distance);
 
             ApplyForce(dir * m);
         }
