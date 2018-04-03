@@ -14,6 +14,8 @@ public class MoverController : MonoBehaviour {
         areaSize = 10.0f;
         mover = Instantiate(moverPrefab,Vector3.zero,Quaternion.identity);
         m = mover.GetComponent<Mover>();
+        m.mass = 10.0f;
+        Debug.Log(m.mass);
 	}
 	
 	// Update is called once per frame
@@ -25,6 +27,10 @@ public class MoverController : MonoBehaviour {
         if (mover.transform.position.magnitude > areaSize)
         {
             m.Reverse();
+        }
+        if (Input.GetMouseButtonDown(1))
+        {
+            m.Breaking(0.3f);
         }
         m.Move();
 	}

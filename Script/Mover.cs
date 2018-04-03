@@ -12,7 +12,7 @@ public class Mover : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        mass = 2.0f;
+
 	}
 	
 	// Update is called once per frame
@@ -28,9 +28,24 @@ public class Mover : MonoBehaviour {
         force = Vector3.zero;
     }
 
+    public Vector3 GetStrength()
+    {
+        return velocity * mass;
+    }
+
+    public void Breaking(float ratio)
+    {
+        ApplyForce(GetStrength() * ratio * -1);
+    }
+
+    public void Accelerate(float ratio)
+    {
+        ApplyForce(GetStrength() * ratio);
+    }
+
     public void Reverse()
     {
-        velocity *= -1;
+        ApplyForce(GetStrength() * -2);
     }
 
     public void ApplyForce(Vector3 strength)
