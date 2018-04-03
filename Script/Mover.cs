@@ -9,7 +9,16 @@ public class Mover : MonoBehaviour {
     Vector3 velocity;
 
     public float mass;
-
+    void Start()
+    {
+        force = Vector3.zero;
+        acceleration = Vector3.zero;
+        velocity = Vector3.zero;
+    }
+    void Update()
+    {
+        Move();
+    }
 
     public void Move()
     {
@@ -17,6 +26,7 @@ public class Mover : MonoBehaviour {
         velocity += acceleration;
         gameObject.transform.position += velocity * Time.deltaTime;
         force = Vector3.zero;　//力を初期化
+        //velocity = Vector3.zero; // 速度を初期化
     }
 
     public Vector3 GetStrength()
@@ -36,6 +46,7 @@ public class Mover : MonoBehaviour {
 
     public void Reverse()
     {
+        gameObject.transform.position -= velocity * Time.deltaTime;
         ApplyForce(GetStrength() * -2);
     }
 
@@ -47,10 +58,32 @@ public class Mover : MonoBehaviour {
     public void GetAttract(float G, GameObject attractor)
     {
         Vector3 dir = attractor.transform.position - gameObject.transform.position;
-        float distance = dir.magnitude;
-        float attractorMass = attractor.GetComponent<Mover>().mass;
-        dir = dir.normalized;
-        Vector3 strength = G * attractorMass * this.mass / (distance * distance) * dir;
-        ApplyForce(strength);
+        float distance = dir.magnitude < 2.0f
+            ? 2.0f
+            : dir.magnitude;
+        if (distance > 2.0f)
+        {
+            float attractorMass = attractor.GetComponent<Mover>().mass;
+            dir = dir.normalized;
+            Vector3 strength = (G * attractorMass * this.mass) / (distance * distance) * dir;
+            ApplyForce(strength);
+            velocity = Vector3.zero;
+        }
+
+    }
+    public void GetRepulsive(float G, GameObject attractor)
+    {
+        Vector3 dir = attractor.transform.position - gameObject.transform.position;
+        float distance = dir.magnitude < 2.0f
+            ? 2.0f
+            : dir.magnitude;
+        if (distance > 2.0f)
+        {
+            float attractorMass = attractor.GetComponent<Mover>().mass;
+            dir = dir.normalized;
+            Vector3 strength = (G * attractorMass * this.mass) / (distance * distance) * dir;
+            ApplyForce(-strength);
+            velocity = Vector3.zero;
+        }
     }
 }
